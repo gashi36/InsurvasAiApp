@@ -41,10 +41,5 @@ namespace Backend.GraphQL
 
         // Labels the next batch of unlabeled posts. Run it repeatedly.
         public Task<int> LabelPosts(int take, [Service] LabelService s) => s.RunAsync(take);
-
-
-
-
-
     }
 }

@@ -19,18 +19,11 @@ namespace Backend.Services
                 if (g.Count() < 5) continue;     //skip small channels
                 var f = Math.Max(followers[g.Key], 1);     // avoid divide by zero
                 var raw = g.ToDictionary(p => p, p => (p.Likes * LikeW + p.Comments * CommentW + p.Views * VieW) / f);
-                var median = Median(raw.Values);  // the channel's "normal"
+                var median = StatsService.Median(raw.Values);  // the channel's "normal"
                 foreach (var (p, r) in raw) p.Score = median > 0 ? r / median : 0;
             }
             await db.SaveChangesAsync();
             return posts.Count;
-        }
-
-        static double Median(IEnumerable<double> xs)
-        {
-            var a = xs.OrderBy(x => x).ToArray();
-            int n = a.Length;
-            return n % 2 == 1 ? a[n / 2] : (a[n / 2 - 1] + a[n / 2]) / 2;
         }
     }
 }

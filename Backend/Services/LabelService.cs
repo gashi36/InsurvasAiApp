@@ -22,6 +22,7 @@ public class LabelService(AppDbContext db, HttpClient http, IConfiguration cfg)
             var (t, h, f) = await LabelOne(p.Caption);
             p.Topic = t; p.Hook = h; p.Format = f;
             await db.SaveChangesAsync();   // save each, so a crash loses nothing
+            await Task.Delay(4500);
         }
         return posts.Count;
     }
@@ -52,7 +53,7 @@ public class LabelService(AppDbContext db, HttpClient http, IConfiguration cfg)
         if (!res.IsSuccessStatusCode)
         {
             var err = await res.Content.ReadAsStringAsync();
-            throw new Exception($"Gemini screamed: {res.StatusCode} - {err}");
+            throw new Exception($"Gemini says: {res.StatusCode} - {err}");
         }
 
         var text = JsonDocument.Parse(await res.Content.ReadAsStringAsync())
