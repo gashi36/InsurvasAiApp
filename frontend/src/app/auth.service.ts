@@ -8,7 +8,7 @@ import { firstValueFrom } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  base = 'http://localhost:5189';   // backend address; use your Render URL when deployed
+  base = 'https://insurvasaiapp.onrender.com';  // backend address; use your Render URL when deployed
 
   get token(): string | null { return sessionStorage.getItem('token'); }
   loggedIn(): boolean { return !!this.token; }
