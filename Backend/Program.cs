@@ -27,15 +27,20 @@ builder.Services
     .AddMutationType<Mutation>()
     .ModifyRequestOptions(opt =>
         opt.ExecutionTimeout = TimeSpan.FromMinutes(2));
-
-var frontendUrl = builder.Configuration["FrontendUrl"]
-    ?? "http://localhost:4200";
+var allowedOrigins = new[]
+{
+    "http://localhost:4200",
+    "https://insurvas-ai-app.vercel.app",
+    "https://insurvas-ai-59fek9sam-gashi36.vercel.app"
+};
 
 builder.Services.AddCors(options =>
+{
     options.AddDefaultPolicy(policy =>
-        policy.WithOrigins(frontendUrl)
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyHeader()
-              .AllowAnyMethod()));
+              .AllowAnyMethod());
+});
 
 var app = builder.Build();
 
